@@ -15,9 +15,13 @@ namespace MvcProject.Controllers
         private MvcProjectDB db = new MvcProjectDB();
 
         // GET: StoreManager
-        public ActionResult Index()
-        {
+        public ActionResult Index(string q)
+        {         
+
             var albums = db.Albums.Include(a => a.Artist).Include(a => a.Genre);
+            if (!string.IsNullOrEmpty(q)) {
+                albums= albums.Where(a => a.Title.Contains(q)).Take(10);
+            }
             return View(albums.ToList());
         }
 
@@ -123,6 +127,23 @@ namespace MvcProject.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult Search(string q) {
+            var album = db.Albums.Include(a => a.Artist).Where(a => a.Title.Contains(q)).Take(10);
+            return View(album);
+        }
+
+        public ActionResult GetRandom()
+        {
+            return PartialView("_ajaxPartiaView",GetDailyDeal());
+        }
+
+        public Album GetDailyDeal() {
+            var album = db.Albums.OrderBy(a => System.Guid.NewGuid()).First();
+            return album;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

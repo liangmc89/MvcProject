@@ -9,25 +9,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <title>Search</title>
 </head>
 <body>
-    @using (Html.BeginForm("Index", "StoreManager", FormMethod.Get))
-    {
-        <input type="text" name="q" value="" />
-        <input type="submit"  name="search" value="search" />
-    }
-    <img id="loading" src="~/Content/images/loading8.gif" style="display:none" />
-    <div id="ajaxDiv">        
-        @Ajax.ActionLink("Click Here",
-                           "GetRandom",
-                           null,
-                           new AjaxOptions{UpdateTargetId= "ajaxDiv", HttpMethod ="get",InsertionMode=InsertionMode.ReplaceWith},
-                           new {@class="btn btn-primary" }
-
-        )
-    </div>
-
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
@@ -77,8 +61,5 @@
     }
     
     </table>
-    @section Scripts{
-            <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-        }
 </body>
 </html>
